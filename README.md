@@ -16,6 +16,20 @@ Recipes
 * `default`: installs gitlabhq
 
 
+
+Attributes
+----------
+
+### User
+
+* `node['gitlabhq']['user']` (`git`): User for application and ssh access. If you use another user than `git`, the git urls with ssh access change also.
+* `node['gitlabhq']['home']` (`/home/git`): Home directory for gitlab and per default all repositories
+
+### http options
+
+* `node['gitlabhq']['self_signed_cert']` (`false`): Uses the server a self sign certificate (or a unknown CA). Active this option to deactivate certificate validation.
+
+
 License and Author
 ------------------
 
