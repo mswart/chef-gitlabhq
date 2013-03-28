@@ -5,6 +5,7 @@ gem 'chef', '~> 10.0'
 gem 'rake'
 gem 'foodcritic', :platform => :ruby_19
 gem 'chefspec', '>= 1.0.0.rc1'
+gem 'rvm'
 
 group :development do
   gem 'guard'

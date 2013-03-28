@@ -10,7 +10,7 @@ http_settings:
   self_signed_cert: <%= @options['self_signed_cert'] %>
 
 # Repositories path
-repos_path: "<%= @options['home'] %>/repositories"
+repos_path: "<%= @repos_path %>"
 
 # File used as authorized_keys for gitlab user
-auth_file: "<%= @options['home'] %>/.ssh/authorized_keys"
+auth_file: "<%= @auth_file %>"

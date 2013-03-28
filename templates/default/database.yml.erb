@@ -1,0 +1,6 @@
+# MANAGED BY CHEF - DO NOT EDIT!
+production:
+<% @database.to_hash.sort.each do |key, value| -%>
+<%next if value.nil? -%>
+  <%= key %>: <%= value %>
+<% end -%>
