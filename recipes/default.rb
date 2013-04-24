@@ -101,8 +101,10 @@ end
 
 # 4. install dependencies
 # -----------------------
+deps = node['gitlabhq']['dependencies'].dup
+deps += node['gitlabhq']['adapter_dependencies'][node['gitlabhq']['database']['adapter']] || []
 
-node['gitlabhq']['dependencies'].each do |pkg|
+deps.each do |pkg|
   package pkg do
     action :install
   end

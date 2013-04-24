@@ -79,6 +79,16 @@ describe 'gitlabhq::default' do
     it 'libicu-dev' do
       expect(chef_run).to install_package 'libicu-dev'
     end
+
+    it 'libmysqlclient-dev with mysql adapter' do
+      chef_runner.node.set['gitlabhq']['database']['adapter'] = 'mysql'
+      expect(chef_run).to install_package 'libmysqlclient-dev'
+    end
+
+    it 'libpq-dev with postgresql adapter' do
+      chef_runner.node.set['gitlabhq']['database']['adapter'] = 'postgresql'
+      expect(chef_run).to install_package 'libpq-dev'
+    end
   end
 
   context 'configure gitlab' do

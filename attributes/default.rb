@@ -20,6 +20,9 @@
 
 default['gitlabhq']['dependencies'] = %w{libicu-dev}
 
+default['gitlabhq']['adapter_dependencies']['postgresql'] = [ 'libpq-dev']
+default['gitlabhq']['adapter_dependencies']['mysql'] = [ 'libmysqlclient-dev']
+
 default['gitlabhq']['user'] = 'git'
 default['gitlabhq']['group'] = 'git'
 default['gitlabhq']['home'] = '/home/git'
@@ -36,6 +39,10 @@ default['gitlabhq']['gemset'] = 'gitlab'
 
 default['gitlabhq']['repo-url'] = 'git://github.com/gitlabhq/gitlabhq.git'
 default['gitlabhq']['repo-ref'] = '5-0-stable'
+
+# database
+
+default['gitlabhq']['database'] = {}
 
 
 # gitlab.yml
