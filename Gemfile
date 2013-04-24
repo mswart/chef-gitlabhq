@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 
-gem 'chef', '~> 10.0'
+gem 'chef', '~> 11'
 
 gem 'rake'
 gem 'foodcritic', :platform => :ruby_19
-gem 'chefspec', '>= 1.0.0.rc1'
+gem 'chefspec', '>= 1.0.0'
 gem 'rvm'
 
 group :development do
