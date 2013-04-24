@@ -38,7 +38,7 @@ default['gitlabhq']['ruby'] = '1.9.3-p327'
 default['gitlabhq']['gemset'] = 'gitlab'
 
 default['gitlabhq']['repo-url'] = 'git://github.com/gitlabhq/gitlabhq.git'
-default['gitlabhq']['repo-ref'] = '5-0-stable'
+default['gitlabhq']['repo-ref'] = '5-1-stable'
 
 # database
 

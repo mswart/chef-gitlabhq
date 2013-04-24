@@ -98,6 +98,11 @@ rvm_wrapper 'gitlab' do
   binary 'bundle'
 end
 
+bash 'uses rvm ruby for scripts' do
+  user node['gitlabhq']['user']
+  code "sed -i -e 's|/usr/bin/env ruby|'`which ruby-1.9.3-p327@gitlab`|' #{node['gitlabhq']['home']}/gitlab-shell/bin/gitlab-shell"
+end
+
 
 # 4. install dependencies
 # -----------------------
@@ -111,17 +116,22 @@ deps.each do |pkg|
 end
 
 
-# 5. deploy gitlab
-# ----------------
+# 5. prepare gitlab deploy
+# ------------------------
+
+directory_option = Proc.new do
+   user node['gitlabhq']['user']
+  group node['gitlabhq']['group']
+end
 
 # create shared/config directory to be able to create config files
 %w(gitlab shared config).inject(node['gitlabhq']['home']) do |path, dir|
   path = ::File.join path, dir
-  directory path do
-    user node['gitlabhq']['user']
-    group node['gitlabhq']['group']
-  end
+  directory path, &directory_option
   path
+end
+%w(log pids sockets pids).each do |p|
+  directory ::File.join(node['gitlabhq']['home'], 'gitlab', 'shared', p), &directory_option
 end
 
 # create database.yml configuration file (needed for migration)
@@ -142,7 +152,21 @@ template ::File.join(node['gitlabhq']['home'], 'gitlab', 'shared', 'config', 'gi
   backup false
 end
 
+# create gitlab service
+template '/etc/init.d/gitlab' do
+  source 'gitlab-initd.erb'
+  variables :options => node['gitlabhq'], :repos_path => repos_path
+  mode 00755
+  backup false
+end
+
+
+# 6. deploy gitlab
+# ----------------
+
 # deploy application, deep improvement
+ignore_gem = { 'mysql' => 'postgre', 'postgresql' => 'mysql' }[node['gitlabhq']['database']['adapter']] || ''
+
 deploy_revision ::File.join(node['gitlabhq']['home'], 'gitlab') do
   repository node['gitlabhq']['repo-url']
   revision node['gitlabhq']['repo-ref']
@@ -150,7 +174,7 @@ deploy_revision ::File.join(node['gitlabhq']['home'], 'gitlab') do
   environment 'RAILS_ENV' => 'production'
 
   keep_releases 2
-  #rollback_on_error true
+  rollback_on_error true
 
   user node['gitlabhq']['user']
   group node['gitlabhq']['group']
@@ -161,13 +185,30 @@ deploy_revision ::File.join(node['gitlabhq']['home'], 'gitlab') do
       user node['gitlabhq']['user']
       group node['gitlabhq']['group']
       code %{
-         gitlab_bundle install --deployment --path "#{node['gitlabhq']['home']}/gitlab/shared/bundle" --without development test
+        sed -e "s|/gitlab'|/gitlab/current'|" config/puma.rb.example > config/puma.rb
+        rm -f db/migrate/20121009205010_postgres_create_integer_cast.rb
+        gitlab_bundle install --deployment --path "#{node['gitlabhq']['home']}/gitlab/shared/bundle" --without development test #{ignore_gem}
       }
     end
   end
-
   migrate true
-  migration_command 'gitlab_bundle exec rake db:migrate --trace'
+  migration_command 'gitlab_bundle exec rake db:migrate RAILS_ENV=production'
+  symlink_before_migrate "config/database.yml" => "config/database.yml",
+                         "config/gitlab.yml" => "config/gitlab.yml"
 
-  restart_command 'touch tmp/restart.txt'
+  symlinks  "system" => "public/system",
+            "sockets" => "tmp/sockets",
+            "pids" => "tmp/pids",
+            "log" => "log"
+
+  notifies :restart, "service[gitlab]"
+end
+
+
+# 7. start gitlab
+# ---------------
+
+service 'gitlab' do
+  supports :status => true, :restart => true, :reload => true
+  action [ :enable, :start ]
 end

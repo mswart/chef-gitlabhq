@@ -69,7 +69,7 @@ Attributes
 
 generated from `node['gitlabhq']['database']`. e.g.
 
-* `node['gitlabhq']['database']['engine'] = 'postgresql'` for postgresql
+* `node['gitlabhq']['database']['adapter'] = 'postgresql'` for postgresql
 
 
 License and Author
