@@ -100,7 +100,7 @@ end
 
 bash 'uses rvm ruby for scripts' do
   user node['gitlabhq']['user']
-  code "sed -i -e 's|/usr/bin/env ruby|'`which ruby-1.9.3-p327@gitlab`|' #{node['gitlabhq']['home']}/gitlab-shell/bin/gitlab-shell"
+  code "sed -i -e 's|^#!.*$|'`which ruby-1.9.3-p327@gitlab`\\| #{node['gitlabhq']['home']}/gitlab-shell/bin/gitlab-shell"
 end
 
 

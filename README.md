@@ -37,7 +37,7 @@ Attributes
 ### source options
 
 * `node['gitlabhq']['repo-url']` (`git://github.com/gitlabhq/gitlabhq.git`)
-* `node['gitlabhq']['repo-ref']` (`5-0-stable`)
+* `node['gitlabhq']['repo-ref']` (`5-1-stable`)
 * `node['gitlabhq']['shell-url']` (`git://github.com/gitlabhq/gitlab-shell.git`)
 * `node['gitlabhq']['shell-ref']` (`master`)
 
