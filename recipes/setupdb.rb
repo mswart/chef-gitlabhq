@@ -20,5 +20,5 @@
 bash 'create-postgresql-user' do
   user 'postgres'
   code "psql --command=\"CREATE ROLE #{node['gitlabhq']['user']} NOSUPERUSER CREATEDB NOCREATEROLE INHERIT LOGIN\"; psql --command=\"CREATE DATABASE #{node['gitlabhq']['user']} OWNER #{node['gitlabhq']['database']['database']} ENCODING \'utf8\'\" || true"
-  only_if node['gitlabhq']['database']['adapter'] == 'postgresql'
+  only_if { node['gitlabhq']['database']['adapter'] == 'postgresql' }
 end

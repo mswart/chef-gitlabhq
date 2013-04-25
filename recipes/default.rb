@@ -60,7 +60,7 @@ end
 directory repos_path do
   user node['gitlabhq']['user']
   recursive true
-  mode 00770
+  mode 002770
   action :create
 end
 
@@ -72,7 +72,7 @@ end
 
 file auth_file do
   user node['gitlabhq']['user']
-  action :touch
+  action :create_if_missing
 end
 
 bash 'fix repo modes' do
@@ -100,7 +100,7 @@ end
 
 bash 'uses rvm ruby for scripts' do
   user node['gitlabhq']['user']
-  code "sed -i -e 's|^#!.*$|'`which ruby-1.9.3-p327@gitlab`\\| #{node['gitlabhq']['home']}/gitlab-shell/bin/gitlab-shell"
+  code "sed -i -e 's|^#!.*$|'#!`which ruby-#{node['gitlabhq']['ruby']}@#{node['gitlabhq']['gemset']}`\\| #{node['gitlabhq']['home']}/gitlab-shell/bin/gitlab-shell"
 end
 
 
