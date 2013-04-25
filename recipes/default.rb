@@ -141,6 +141,8 @@ template ::File.join(node['gitlabhq']['home'], 'gitlab', 'shared', 'config', 'da
   group node['gitlabhq']['group']
   variables :database => node['gitlabhq']['database']
   backup false
+
+  notifies :restart, "service[gitlab]"
 end
 
 # create gitlab config
@@ -150,6 +152,8 @@ template ::File.join(node['gitlabhq']['home'], 'gitlab', 'shared', 'config', 'gi
   group node['gitlabhq']['group']
   variables :options => node['gitlabhq'], :repos_path => repos_path
   backup false
+
+  notifies :restart, "service[gitlab]"
 end
 
 # create gitlab service

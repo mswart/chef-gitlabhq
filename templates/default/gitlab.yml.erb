@@ -22,7 +22,7 @@ production: &base
     # Uncomment and customize to run in non-root path
     # Note that ENV['RAILS_RELATIVE_URL_ROOT'] in config/unicorn.rb may need to be changed
 <% if @options['relative_url_root'] -%>
-    relative_url_root: @options['relative_url_root']
+    relative_url_root: <%= @options['relative_url_root'] %>
 <% end -%>
     # Uncomment and customize if you can't use the default user to run GitLab (default: 'git')
     user: <%= @options['user'] %>

@@ -47,6 +47,7 @@ Attributes
 * `node['gitlabhq']['host']` (fqdn)
 * `node['gitlabhq']['port']` (`80`)
 * `node['gitlabhq']['https']` (`false`)
+* `node['gitlabhq']['relative_url_root']` (`nil`): Specify this to run gitlabhq inside a subdirectory - e.g. `/gitlab`. `nil` means no subdirectory.
 
 ### gitlab.yml
 
