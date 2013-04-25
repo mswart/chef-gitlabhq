@@ -2,7 +2,7 @@
 user: <%= @options['user'] %>
 
 # Url to gitlab instance. Used for api calls. Should be ends with slash.
-gitlab_url: "http://localhost<%= node['gitlabhq']['relative_url_path'] %>/"
+gitlab_url: "http://localhost<%= node['gitlabhq']['relative_url_root'] %>/"
 
 http_settings:
 #  user: someone
