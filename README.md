@@ -15,6 +15,7 @@ Recipes
 
 * `default`: installs gitlabhq
 * `setupdb`: shortcut to create the needed database user. Currently only postgresql is supported if the server runs on the same machine and `postgres` is postgresql superuser.
+* `redis`: Simple recipe to install redis server. Currently installs with distribution package. Usage of own redis cookbooks is planned.
 
 
 
