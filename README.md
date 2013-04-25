@@ -14,7 +14,7 @@ Recipes
 -------
 
 * `default`: installs gitlabhq
-* `createdbuser`: shortcut to create the needed database user. Currently only postgresql is supported if the server runs on the same machine and `postgres` is postgresql superuser.
+* `setupdb`: shortcut to create the needed database user. Currently only postgresql is supported if the server runs on the same machine and `postgres` is postgresql superuser.
 
 
 
