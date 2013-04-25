@@ -1,3 +1,4 @@
 Guardfile.local
 Gemfile.lock
 tmp/
+spec/support/cookbooks
